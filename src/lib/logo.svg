@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- White circle background -->
+  <circle cx="100" cy="60" r="50" fill="white"/>
+  <!-- Coffee cup icon -->
+  <g transform="translate(100, 60)">
+    <path d="M-15 -20 L-15 20 Q-15 25 -10 25 L10 25 Q15 25 15 20 L15 -20" stroke="white" stroke-width="2" fill="none" transform="translate(0, -5)"/>
+    <path d="M15 5 Q25 5 25 15 Q25 25 15 25" stroke="white" stroke-width="2" fill="none"/>
+    <!-- Coffee lines -->
+    <line x1="-8" y1="-5" x2="-8" y2="15" stroke="white" stroke-width="1.5"/>
+    <line x1="0" y1="-8" x2="0" y2="18" stroke="white" stroke-width="1.5"/>
+    <line x1="8" y1="-5" x2="8" y2="15" stroke="white" stroke-width="1.5"/>
+  </g>
+</svg>
