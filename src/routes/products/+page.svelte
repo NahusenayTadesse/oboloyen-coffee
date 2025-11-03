@@ -83,7 +83,9 @@
 		}
 	];
 </script>
-
+<svelte:head>
+ <title>Products</title>
+</svelte:head>
 <!-- Hero Section -->
 <section class="relative h-96 bg-primary text-primary-foreground overflow-hidden">
 	<img

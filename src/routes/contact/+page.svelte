@@ -67,6 +67,10 @@
 	}
 </script>
 
+<svelte:head>
+ <title>Contact</title>
+</svelte:head>
+
 <!-- Hero Section -->
 <section class="relative h-80 bg-primary text-primary-foreground overflow-hidden">
 	<img

@@ -31,8 +31,12 @@
 
 </script>
 
+<svelte:head>
+ <title>Oboleyan Coffee</title>
+</svelte:head>
+
 <!-- Hero Carousel -->
-<section class="relative h-screen bg-primary overflow-hidden">
+<section class="relative h-[90vh] bg-primary overflow-hidden">
 	<!-- Slides -->
 	{#each slides as slide, i}
 		{#if i === currentSlide}
