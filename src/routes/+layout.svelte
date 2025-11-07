@@ -1,6 +1,14 @@
 <script lang="ts">
 	import '../app.css';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
+	import { getFlash } from 'sveltekit-flash-message';
+	 import { toastmsg, errormsg } from '$lib/global.svelte';
+	 	import { CircleCheckBig, CircleX, Loader } from '@lucide/svelte';
+  import { fly } from 'svelte/transition';
+		let iconify = $state("h-6 w-6 animate-ping");
+
+
+  const flash = getFlash(page, { clearAfterMs: 5000 });
 
 	let { children } = $props();
 
@@ -14,6 +22,24 @@
 
 	let isOpen = $state(false);
 </script>
+
+{#if $flash}
+ 
+  <div class="flex flex-row gap-2 
+  {$flash.type==='success' ? toastmsg: errormsg}" 
+  transition:fly={{x:20, duration: 300  }}>
+  {#if $flash.type==='success'}
+    <CircleCheckBig class={iconify} />
+   {:else}
+   <CircleX class={iconify} />
+  {/if}
+    {$flash.message}
+
+  </div>
+
+
+{/if}
+
 
 <!-- Navigation -->
 <nav class="sticky top-0 z-50 bg-primary text-primary-foreground shadow-lg">
@@ -36,7 +62,7 @@
 					<a
 						href={item.href}
 						class={`text-sm font-medium transition-colors ${
-							$page.url.pathname === item.href
+							page.url.pathname === item.href
 								? 'text-accent border-b-2 border-accent pb-1'
 								: 'hover:text-accent'
 						}`}
@@ -65,7 +91,7 @@
 					<a
 						href={item.href}
 						class={`block px-4 py-2 rounded-lg transition-colors ${
-							$page.url.pathname === item.href
+							page.url.pathname === item.href
 								? 'bg-accent text-accent-foreground'
 								: 'hover:bg-white/10'
 						}`}

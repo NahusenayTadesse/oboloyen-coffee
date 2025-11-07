@@ -1,24 +1,55 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
+	function random1To11(): number {
+		return Math.floor(Math.random() * 11) + 1;
+	}
+
 	let currentSlide = $state(0);
 	const slides = [
 		{
-			image: '/placeholder.svg?height=600&width=1200',
+			image: `/images/coffee(${random1To11()}).webp`,
 			heading: 'Premium Ethiopian Guji Coffee',
 			subheading: 'The Coffee From Its Source'
 		},
 		{
-			image: '/placeholder.svg?height=600&width=1200',
+			image: `/images/coffee(${random1To11()}).webp`,
 			heading: 'Crafted with Heritage',
 			subheading: 'Family tradition spanning generations'
 		},
 		{
-			image: '/placeholder.svg?height=600&width=1200',
+			image: `/images/coffee(${random1To11()}).webp`,
 			heading: 'Global Excellence',
 			subheading: '50 containers exported annually'
 		}
 	];
+
+
+
+	let coffeeTypes = [
+		{name: 'Natural/Unwashed/Dried Coffee Beans',
+		
+		 description: 'Unwashed coffee beans represent a fascinating chapter in the world of coffee processing. ',
+		 image: '/images/coffee(10).webp'
+		
+		}, 
+
+		 {name: 'Washed', 
+		
+		 description: 'Washed coffee beans offer a window into the artistry of coffee processing, delivering a cup characterized by clarity, brightness, and a clean flavor profile. ',
+		 image: '/images/washed.webp'
+		}, 
+
+		 {name: 'Anaerobic Coffee Beans', 
+		
+		 description: 'Anaerobic coffee beans represent a fascinating development in coffee processing, offering a new range of flavors and characteristics through controlled fermentation.',
+		 image: '/images/aner.avif'
+		}, 
+
+
+
+		
+		]
 
 	onMount(() => {
 		const interval = setInterval(() => {
@@ -36,7 +67,7 @@
 </svelte:head>
 
 <!-- Hero Carousel -->
-<section class="relative h-[90vh] bg-primary overflow-hidden">
+<section class="relative h-[90vh] bg-primary/50 overflow-hidden">
 	<!-- Slides -->
 	{#each slides as slide, i}
 		{#if i === currentSlide}
@@ -90,11 +121,11 @@
 					Every bean reflects our passion for quality, tradition, and the meticulous care that defines our brand.
 				</p>
 			</div>
-			<div class="bg-gradient-to-br from-primary to-secondary rounded-lg overflow-hidden h-96">
+			<div class="bg-radial-to-br from-primary to-secondary rounded-lg overflow-hidden p-2 h-96">
 				<img
-					src="/placeholder.svg?height=400&width=500"
+					src="/images/ob(2).webp"
 					alt="Coffee farm"
-					class="w-full h-full object-cover"
+					class="w-full h-full rounded-lg"
 				/>
 			</div>
 		</div>
@@ -130,18 +161,18 @@
 	<div class="max-w-6xl mx-auto">
 		<h2 class="font-serif text-4xl font-bold text-center mb-12 text-primary">Our Coffee Selection</h2>
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-			{#each ['Washed', 'Natural/Sun-Dried', 'Specialty'] as coffeeType}
+			{#each coffeeTypes as coffeeType}
 				<div class="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-					<div class="h-48 bg-gradient-to-br from-secondary to-primary overflow-hidden">
+					<div class="h-48 bg-linear-to-br from-secondary to-primary overflow-hidden">
 						<img
-							src="/placeholder.svg?height=250&width=400"
-							alt={coffeeType}
+							src={coffeeType.image}
+							alt={coffeeType.name}
 							class="w-full h-full object-cover"
 						/>
 					</div>
 					<div class="p-6">
-						<h3 class="font-serif text-xl font-bold text-primary mb-2">{coffeeType} Coffee</h3>
-						<p class="text-card-foreground/70 mb-4">Premium grade Ethiopian Guji coffee processed with precision and care for exceptional flavor.</p>
+						<h3 class="font-serif text-xl font-bold text-primary mb-2">{coffeeType.name} Coffee</h3>
+						<p class="text-card-foreground/70 mb-4">{coffeeType.description}</p>
 						<a href="/products" class="text-accent font-semibold hover:text-secondary transition-colors">
 							Learn More →
 						</a>

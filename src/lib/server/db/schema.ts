@@ -1,0 +1,41 @@
+import {
+  mysqlTable,
+  serial,
+  int,
+  varchar,
+  datetime,
+  text,
+  timestamp,
+} from "drizzle-orm/mysql-core";
+
+export const user = mysqlTable("user", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  username: varchar("username", { length: 32 }).notNull().unique(),
+  name: varchar('name', {length: 50}).notNull(),
+  email: varchar("email", {length: 100}).notNull().unique(),
+  passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+});
+
+export const session = mysqlTable("session", {
+  id: varchar("id", { length: 255 }).primaryKey(),
+  userId: varchar("user_id", { length: 255 })
+    .notNull()
+    .references(() => user.id),
+  expiresAt: datetime("expires_at").notNull(),
+});
+
+export const contactMessages = mysqlTable('contact_messages', {
+  id: int('id').primaryKey().autoincrement(),
+  name: varchar('name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
+  company: varchar('company', { length: 255 }), // optional
+  phone: varchar('phone', { length: 50 }),      // optional
+  subject: varchar('subject', { length: 255 }).notNull(),
+  message: text('message').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+
+export type Session = typeof session.$inferSelect;
+
+export type User = typeof user.$inferSelect;

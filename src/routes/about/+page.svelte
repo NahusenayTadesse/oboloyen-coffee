@@ -1,4 +1,6 @@
 <script lang="ts">
+
+	import { random1To11 } from "$lib/global.svelte";
 	const founders = [
 		{
 			name: 'Abebe Oboleyan',
@@ -56,9 +58,9 @@
 </svelte:head>
 
 <!-- Hero Section -->
-<section class="relative h-96 bg-primary text-primary-foreground overflow-hidden">
+<section class="relative h-96 bg-primary/50 text-primary-foreground overflow-hidden">
 	<img
-		src="/placeholder.svg?height=400&width=1200"
+		src="/images/coffee({random1To11()}).webp"
 		alt="Guji coffee region"
 		class="absolute inset-0 w-full h-full object-cover opacity-20"
 	/>
@@ -77,7 +79,7 @@
 		<div class="grid md:grid-cols-2 gap-12 items-center">
 			<div class="order-2 md:order-1">
 				<img
-					src="/placeholder.svg?height=400&width=500"
+					src="/images/ob(4).webp"
 					alt="Oboleyan family legacy"
 					class="rounded-lg shadow-lg w-full"
 				/>

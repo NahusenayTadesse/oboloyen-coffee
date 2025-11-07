@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { random1To11 } from "$lib/global.svelte";
+
 	let formData = $state({
 		name: '',
 		email: '',
@@ -10,27 +12,29 @@
 
 	let submitted = $state(false);
 	let isLoading = $state(false);
+	  import { Loader, MapPin, Mail, Phone, Clock } from "@lucide/svelte";
+
 
 	const contactInfo = [
 		{
 			title: 'Headquarters',
 			details: ['Guji, Ethiopia', 'East Africa'],
-			icon: '📍'
+			icon: MapPin
 		},
 		{
 			title: 'Email',
 			details: ['info@oboleyan.com', 'export@oboleyan.com'],
-			icon: '✉️'
+			icon: Mail
 		},
 		{
 			title: 'Phone',
 			details: ['+251 XXX XXX XXXX', 'Available weekdays 8am-5pm EAT'],
-			icon: '📞'
+			icon: Phone
 		},
 		{
 			title: 'Business Hours',
 			details: ['Monday - Friday: 8:00 AM - 5:00 PM', 'Guji, Ethiopia (EAT/UTC+3)'],
-			icon: '🕐'
+			icon: Clock
 		}
 	];
 
@@ -65,16 +69,66 @@
 			isLoading = false;
 		}
 	}
+
+	  import  { superForm } from 'sveltekit-superforms';
+	  import { zod4Client } from 'sveltekit-superforms/adapters';
+	    let { data } = $props();
+
+import { contactMessageSchema as schema} from '$lib/zodschemas.js';
+  import type { Snapshot } from "@sveltejs/kit";
+
+	const { form, errors, enhance, delayed, capture, restore } = superForm(
+		data.form,
+		{
+			taintedMessage: () => {
+				return new Promise((resolve) => {
+					resolve(window.confirm('Do you want to leave?\nChanges you made may not be saved.'));
+				});
+			},
+
+			validators: zod4Client(schema)
+
+		}
+	);
+
+	export const snapshot: Snapshot = { capture, restore };
+
+
+
 </script>
 
 <svelte:head>
  <title>Contact</title>
 </svelte:head>
 
+
+{#snippet fe(label = '', name = '', type = '', placeholder = '', required=false, min="", max="")}
+	<div class="flex w-full flex-col gap-2 justify-start">
+		<label for={name} >{label}</label>
+		<input
+			{type}
+			{name}
+			{placeholder}
+			{required}
+			{min}
+			{max}
+			class="w-full px-4 py-3 bg-background border border-border 
+			rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent aria-invalid:focus:ring-red-500 "
+
+			bind:value={$form[name]}
+			aria-invalid={$errors[name] ? 'true' : undefined}
+			
+		/>
+		{#if $errors[name]}
+			<span class="text-red-500">{$errors[name]}</span>
+		{/if}
+	</div>
+{/snippet}
+
 <!-- Hero Section -->
-<section class="relative h-80 bg-primary text-primary-foreground overflow-hidden">
+<section class="relative h-80 bg-primary/50 text-primary-foreground overflow-hidden">
 	<img
-		src="/placeholder.svg?height=400&width=1200"
+		src="/images/coffee({random1To11()}).webp"
 		alt="Contact us"
 		class="absolute inset-0 w-full h-full object-cover opacity-20"
 	/>
@@ -93,7 +147,7 @@
 		<div class="grid md:grid-cols-4 gap-8 mb-12">
 			{#each contactInfo as info}
 				<div class="text-center">
-					<div class="text-4xl mb-4">{info.icon}</div>
+					<div class="text-4xl mb-4 flex flex-col justify-center items-center"><info.icon class="h-8 w-8" /></div>
 					<h3 class="font-serif text-xl font-bold text-primary mb-3">{info.title}</h3>
 					{#each info.details as detail}
 						<p class="text-foreground/80 text-sm mb-1">{detail}</p>
@@ -105,108 +159,57 @@
 </section>
 
 <!-- Contact Form Section -->
-<section class="py-20 px-4 bg-card">
+<section class="py-20 px-4 bg-card" id="form">
 	<div class="max-w-2xl mx-auto">
 		<h2 class="font-serif text-4xl font-bold text-center mb-4 text-primary">Send us a Message</h2>
 		<p class="text-center text-foreground/80 mb-12">
 			Have questions about our coffee or interested in bulk orders? Fill out the form below and we'll get back to you within 24 hours.
 		</p>
 
-		{#if submitted}
+		<!-- {#if submitted}
 			<div class="mb-8 bg-green-50 border border-green-200 rounded-lg p-6 text-center">
 				<p class="text-green-700 font-semibold">Thank you! Your message has been sent successfully.</p>
 				<p class="text-green-600 text-sm mt-2">We'll be in touch shortly.</p>
 			</div>
-		{/if}
+		{/if} -->
 
-		<form onsubmit={handleSubmit} class="space-y-6">
+		<form use:enhance method="post" class="space-y-6">
 			<!-- Name and Email Row -->
 			<div class="grid md:grid-cols-2 gap-6">
-				<div>
-					<label for="name" class="block text-sm font-semibold text-primary mb-2">Full Name *</label>
-					<input
-						type="text"
-						id="name"
-						bind:value={formData.name}
-						required
-						placeholder="Your name"
-						class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
-					/>
-				</div>
-				<div>
-					<label for="email" class="block text-sm font-semibold text-primary mb-2">Email Address *</label>
-					<input
-						type="email"
-						id="email"
-						bind:value={formData.email}
-						required
-						placeholder="your@email.com"
-						class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
-					/>
-				</div>
+				{@render fe('Full Name', 'name', 'text', 'Your name', true)}
+				{@render fe('Email Address', 'email', 'email', 'your@email.com', true)}
+				{@render fe('Company', 'company', 'text', 'Your company name', false)}
+				{@render fe('Phone Number', 'phone', 'tel', '+251 XXX XXX XXXX', false)}
+				{@render fe('Subject', 'subject', 'text', 'How can we help?', true)}
 			</div>
+			
+			<div>
 
 			<!-- Company and Phone Row -->
-			<div class="grid md:grid-cols-2 gap-6">
-				<div>
-					<label for="company" class="block text-sm font-semibold text-primary mb-2">Company</label>
-					<input
-						type="text"
-						id="company"
-						bind:value={formData.company}
-						placeholder="Your company name"
-						class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
-					/>
-				</div>
-				<div>
-					<label for="phone" class="block text-sm font-semibold text-primary mb-2">Phone Number</label>
-					<input
-						type="tel"
-						id="phone"
-						bind:value={formData.phone}
-						placeholder="+251 XXX XXX XXXX"
-						class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
-					/>
-				</div>
-			</div>
-
-			<!-- Subject -->
-			<div>
-				<label for="subject" class="block text-sm font-semibold text-primary mb-2">Subject *</label>
-				<input
-					type="text"
-					id="subject"
-					bind:value={formData.subject}
-					required
-					placeholder="How can we help?"
-					class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent"
-				/>
-			</div>
-
-			<!-- Message -->
-			<div>
-				<label for="message" class="block text-sm font-semibold text-primary mb-2">Message *</label>
+				<label for="message" class="block text-sm font-semibold text-primary mb-2">Message</label>
 				<textarea
 					id="message"
-					bind:value={formData.message}
+					name="message"
+					bind:value={$form.message}
 					required
 					rows="6"
 					placeholder="Tell us about your inquiry..."
 					class="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-accent resize-none"
 				></textarea>
+
+				{#if $errors.message}
+			<span class="text-red-500">{$errors.message}</span>
+		{/if}
 			</div>
 
 			<!-- Submit Button -->
 			<button
 				type="submit"
-				disabled={isLoading}
-				class="w-full bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+				disabled={$delayed}
+				class="w-full {$delayed ? "animate-pulse": ''} bg-primary text-primary-foreground px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
 			>
-				{#if isLoading}
-					<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-						<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-					</svg>
+				{#if $delayed}
+					<Loader class="animate-spin" />
 					Sending...
 				{:else}
 					Send Message
@@ -244,7 +247,7 @@
 				<p class="text-foreground/80 mb-6">
 					Interested in tasting our coffee? We offer sample packages for cupping and evaluation.
 				</p>
-				<a href="mailto:info@oboleyan.com?subject=Sample%20Order" class="text-accent font-semibold hover:text-secondary transition-colors">
+				<a href="#form" class="text-accent font-semibold hover:text-secondary transition-colors">
 					Request Samples →
 				</a>
 			</div>

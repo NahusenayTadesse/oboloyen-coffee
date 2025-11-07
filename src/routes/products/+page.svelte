@@ -1,36 +1,89 @@
 <script lang="ts">
+  import { random1To11 } from "$lib/global.svelte";
+
 	const coffeeProducts = [
-		{
-			name: 'Washed Guji',
-			grade: 'Grade 1 - Specialty',
-			image: '/placeholder.svg?height=300&width=300',
-			description: 'Clean, bright, and complex. Notes of citrus and jasmine with exceptional clarity.',
-			characteristics: ['Bright acidity', 'Fruity notes', 'Floral undertones', 'Full body'],
-			processing: 'Washed',
-			altitude: '1800-2100m',
-			harvestSeason: 'Oct-Dec'
-		},
-		{
-			name: 'Natural/Sun-Dried Guji',
-			grade: 'Grade 1',
-			image: '/placeholder.svg?height=300&width=300',
-			description: 'Rich, fruity, and vibrant. Notes of berry and stone fruit with sweet, complex finish.',
-			characteristics: ['Fruity sweetness', 'Berry notes', 'Full body', 'Smooth finish'],
-			processing: 'Natural',
-			altitude: '1800-2100m',
-			harvestSeason: 'Oct-Dec'
-		},
-		{
-			name: 'Honey/Pulped Natural',
-			grade: 'Specialty',
-			image: '/placeholder.svg?height=300&width=300',
-			description: 'Balanced and sweet. Notes of honey, chocolate, and ripe fruit with silky mouthfeel.',
-			characteristics: ['Sweet profile', 'Honey notes', 'Balanced acidity', 'Silky texture'],
-			processing: 'Honey Process',
-			altitude: '1800-2100m',
-			harvestSeason: 'Oct-Dec'
-		}
-	];
+  {
+    name: 'Natural / Unwashed Guji',
+    grade: 'Grade 1 - Specialty',
+    image: '/images/sun.webp',
+    description:
+      'Distinct, fruity, and full-bodied. Notes of tropical fruit, berry, and chocolate with a naturally sweet finish.',
+    characteristics: [
+      'Fruity sweetness',
+      'Full body',
+      'Rich and bold flavors',
+      'Natural sweetness'
+    ],
+    processing: 'Natural / Unwashed',
+    altitude: '1800–2100m',
+    harvestSeason: 'Oct–Dec'
+  },
+  {
+    name: 'Washed Guji',
+    grade: 'Grade 1 - Specialty',
+    image: '/images/washed.webp',
+    description:
+      'Clean, bright, and complex. Notes of citrus, jasmine, and tea-like clarity for a refined cup.',
+    characteristics: [
+      'Bright acidity',
+      'Floral and citrus notes',
+      'Clean cup',
+      'Balanced body'
+    ],
+    processing: 'Washed',
+    altitude: '1800–2100m',
+    harvestSeason: 'Oct–Dec'
+  },
+  {
+    name: 'Anaerobic Guji',
+    grade: 'Grade 1 - Specialty',
+    image: '/images/coffee(3).webp',
+    description:
+      'Complex and aromatic. Notes of tropical fruit, wine-like acidity, and a syrupy mouthfeel from controlled fermentation.',
+    characteristics: [
+      'Complex flavor layers',
+      'Wine-like acidity',
+      'Syrupy texture',
+      'Experimental and bold profile'
+    ],
+    processing: 'Anaerobic',
+    altitude: '1800–2100m',
+    harvestSeason: 'Oct–Dec'
+  },
+  {
+    name: 'Honey Process Guji',
+    grade: 'Specialty',
+    image: '/images/coffee(7).webp',
+    description:
+      'Sweet, rich, and balanced. Notes of honey, caramel, and ripe fruit with a smooth, creamy finish.',
+    characteristics: [
+      'Sweet and balanced profile',
+      'Honey and caramel notes',
+      'Smooth texture',
+      'Mild acidity'
+    ],
+    processing: 'Honey Process',
+    altitude: '1800–2100m',
+    harvestSeason: 'Oct–Dec'
+  },
+  {
+    name: 'Honey Anaerobic Guji',
+    grade: 'Grade 1 - Specialty',
+    image: '/images/coffee(10).webp',
+    description:
+      'A rare and exciting coffee. Combines the sweetness of honey processing with the depth of anaerobic fermentation — offering syrupy sweetness, tropical fruit notes, and complex depth.',
+    characteristics: [
+      'Syrupy sweetness',
+      'Tropical and floral notes',
+      'Rich and layered flavor',
+      'Innovative processing method'
+    ],
+    processing: 'Honey Anaerobic',
+    altitude: '1800–2100m',
+    harvestSeason: 'Oct–Dec'
+  }
+];
+
 
 	const processingSteps = [
 		{
@@ -65,31 +118,72 @@
 		}
 	];
 
-	const processDetails = [
-		{
-			name: 'Washed Process',
-			description: 'The cherry is removed and beans are fermented in water channels, then dried to develop clean, bright, and complex flavors.',
-			benefits: ['Clean cup profile', 'Bright acidity', 'Clear flavor notes', 'Consistent quality']
-		},
-		{
-			name: 'Natural/Sun-Dried Process',
-			description: 'The entire cherry is dried in the sun, allowing the fruit to impart sweet, fruity, and complex flavors to the bean.',
-			benefits: ['Fruity sweetness', 'Full body', 'Complex notes', 'Distinctive character']
-		},
-		{
-			name: 'Honey/Pulped Natural Process',
-			description: 'The skin is removed but fruit mucilage (honey) is left on the bean during drying, creating a balanced, sweet profile.',
-			benefits: ['Balanced flavor', 'Honey sweetness', 'Smooth finish', 'Unique complexity']
-		}
-	];
+const processDetails = [
+  {
+    name: 'Natural / Unwashed Process',
+    description:
+      'Unwashed coffee beans represent a fascinating chapter in the world of coffee processing. Their distinct, fruity flavors and full-bodied characteristics offer a refreshing departure from the more traditional washed coffees. Whether you\'re a seasoned coffee aficionado or a curious newcomer, trying a cup of coffee made from unwashed beans could open up a whole new dimension of taste and enjoyment.',
+    benefits: [
+      'Fruity and bold flavor profile',
+      'Full-bodied texture',
+      'Unique and natural sweetness',
+      'Distinctive and adventurous taste experience'
+    ]
+  },
+  {
+    name: 'Washed Process',
+    description:
+      'Washed coffee beans offer a window into the artistry of coffee processing, delivering a cup characterized by clarity, brightness, and a clean flavor profile. Whether you’re a coffee aficionado or just starting to explore different coffee types, washed beans provide a classic and refined taste experience that showcases the nuanced flavors of high-quality coffee.',
+    benefits: [
+      'Clean and bright cup profile',
+      'Enhanced clarity of flavors',
+      'Consistent and refined taste',
+      'Highlights coffee origin characteristics'
+    ]
+  },
+  {
+    name: 'Anaerobic Process',
+    description:
+      'Anaerobic coffee beans represent a fascinating development in coffee processing, offering a new range of flavors and characteristics through controlled fermentation. With their complex and often surprising profiles, anaerobic beans provide a fresh perspective on coffee and invite you to explore the rich and varied world of specialty coffee.',
+    benefits: [
+      'Unique and complex flavor development',
+      'Controlled fermentation enhances aroma',
+      'Innovative and experimental process',
+      'Rich and layered taste experience'
+    ]
+  },
+  {
+    name: 'Honey Process',
+    description:
+      'Honey coffee beans provide a delightful twist on traditional coffee processing, offering a sweet and complex flavor profile that stands out in the coffee world. With their rich, balanced taste and varied characteristics, honey-processed beans invite you to experience a new dimension of coffee enjoyment.',
+    benefits: [
+      'Sweet and balanced flavor profile',
+      'Rich body with smooth texture',
+      'Natural sweetness without full fermentation',
+      'Bridges the gap between washed and natural processes'
+    ]
+  },
+  {
+    name: 'Honey Anaerobic Process',
+    description:
+      'Honey anaerobic coffee beans represent an exciting evolution in coffee processing, combining the sweetness of honey processing with the complexity of anaerobic fermentation. The result is a cup of coffee that offers a rich, nuanced flavor profile, blending syrupy sweetness with deep, intricate notes.',
+    benefits: [
+      'Combines sweetness and complexity',
+      'Syrupy and rich flavor profile',
+      'Innovative double processing method',
+      'Unique and memorable coffee experience'
+    ]
+  }
+];
+
 </script>
 <svelte:head>
  <title>Products</title>
 </svelte:head>
 <!-- Hero Section -->
-<section class="relative h-96 bg-primary text-primary-foreground overflow-hidden">
+<section class="relative h-96 bg-primary/50 text-primary-foreground overflow-hidden">
 	<img
-		src="/placeholder.svg?height=400&width=1200"
+		src="/images/coffee({random1To11()}).webp"
 		alt="Coffee beans"
 		class="absolute inset-0 w-full h-full object-cover opacity-20"
 	/>

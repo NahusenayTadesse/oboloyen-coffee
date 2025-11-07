@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { random1To11 } from "$lib/global.svelte";
+
 	let selectedTab = $state('facilities');
 
 	const facilities = [
@@ -7,21 +9,21 @@
 			capacity: '150 tons/season',
 			established: '2019',
 			description: 'Our primary washing facility located in Adola, equipped with modern water channels and fermentation tanks.',
-			image: '/placeholder.svg?height=300&width=400'
+			image: '/images/image(22).webp'
 		},
 		{
 			name: 'Washing Station 2 - Bule Hora',
 			capacity: '120 tons/season',
 			established: '2020',
 			description: 'Secondary washing facility in Bule Hora region, featuring advanced sorting and cleaning equipment.',
-			image: '/placeholder.svg?height=300&width=400'
+			image: '/images/image(52).webp'
 		},
 		{
 			name: 'Washing Station 3 - Shakiso',
 			capacity: '130 tons/season',
 			established: '2021',
 			description: 'Latest addition to our network, combining traditional methods with modern efficiency standards.',
-			image: '/placeholder.svg?height=300&width=400'
+			image: '/images/image(32).webp'
 		}
 	];
 
@@ -36,12 +38,12 @@
 	];
 
 	const gallery = [
-		{ title: 'Coffee Plants in Bloom', image: '/placeholder.svg?height=300&width=400' },
-		{ title: 'Harvesting the Cherries', image: '/placeholder.svg?height=300&width=400' },
-		{ title: 'Washing Channels', image: '/placeholder.svg?height=300&width=400' },
-		{ title: 'Drying Beds', image: '/placeholder.svg?height=300&width=400' },
-		{ title: 'Quality Control Testing', image: '/placeholder.svg?height=300&width=400' },
-		{ title: 'Ready for Export', image: '/placeholder.svg?height=300&width=400' }
+		{ title: 'Coffee Plants in Bloom', image: '/images/image(1).webp' },
+		{ title: 'Harvesting the Cherries', image: '/images/ob(12).webp' },
+		{ title: 'Washing Channels', image: '/images/image(59).webp' },
+		{ title: 'Drying Beds', image: '/images/ob(8).webp' },
+		{ title: 'Quality Control Testing', image: '/images/image(49).webp' },
+		{ title: 'Ready for Export', image: '/images/image(16).webp' }
 	];
 
 	const stats = [
@@ -66,9 +68,9 @@
 </svelte:head>
 
 <!-- Hero Section -->
-<section class="relative h-96 bg-primary text-primary-foreground overflow-hidden">
+<section class="relative h-96 bg-primary/50 text-primary-foreground overflow-hidden">
 	<img
-		src="/placeholder.svg?height=400&width=1200"
+		src="/images/coffee({random1To11()}).webp"
 		alt="Coffee operations"
 		class="absolute inset-0 w-full h-full object-cover opacity-20"
 	/>
